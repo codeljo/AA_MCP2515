@@ -1,0 +1,30 @@
+# class
+CANController	KEYWORD1
+CANFrame	KEYWORD1
+CANErrors	KEYWORD1
+
+# functions - CANController
+begin	KEYWORD2
+setMode	KEYWORD2
+setOneshot	KEYWORD2
+setFilters	KEYWORD2
+setFiltersRxb0	KEYWORD2
+setFiltersRxb1	KEYWORD2
+setInterruptCallbacks	KEYWORD2
+getMode	KEYWORD2
+isOneshot	KEYWORD2
+onInterrupt	KEYWORD2
+getErrors	KEYWORD2
+write	KEYWORD2
+read	KEYWORD2
+
+# functions - CANFrame
+setId		KEYWORD2
+setData	KEYWORD2
+getId	KEYWORD2
+getDlc	KEYWORD2
+isRemoteFrame	KEYWORD2
+isExtendedFrame	KEYWORD2
+getData	KEYWORD2
+reset	KEYWORD2
+print	KEYWORD2
