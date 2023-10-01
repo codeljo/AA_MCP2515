@@ -1,7 +1,17 @@
+/*
+  CAN Loopback Example
+
+  This will verify the SPI connection between the Arduino and the CAN controller(MCP2515) are correct.
+  Transmits a CAN standard frame every 2 seconds.
+
+  MIT License
+  https://github.com/codeljo/AA_MCP2515
+*/
+
 #include "AA_MCP2515.h"
 
-#define CAN_PIN_CHIPSELECT 10
-#define CAN_PIN_INTERRUPT 2
+const uint8_t CAN_PIN_CHIPSELECT = 10;
+const int8_t CAN_PIN_INTERRUPT = 2;
 
 CANController CAN(CANBitrate::Config_8MHz_500kbps, CAN_PIN_CHIPSELECT, CAN_PIN_INTERRUPT);
 
@@ -14,24 +24,25 @@ void setup() {
     Serial.println("CAN begin OK");
   } else {
     Serial.println("CAN begin FAIL");
+    // TODO: handle CAN begin failure here
   }
 }
 
 void loop() {
 
-  // write (transmit)
-  CANFrame frame(0x100, data, sizeof(data));
-  CAN.write(frame);
-  frame.print("CAN TX");
+  // transmit
+  CANFrame frame1(0x100, data, sizeof(data));
+  CAN.write(frame1);
+  frame1.print("CAN TX");
 
-  // read (receive)
+  // receive
   CANFrame frame2;
   CANController::IOResult rxResult = CAN.read(frame2);
   switch(rxResult) {
     case CANController::IOResult::OK:
       frame2.print("CAN RX");
       break;
-    case CANController::IOResult::NODATA:
+    default:
       Serial.println("CAN RX NODATA");
       break;
   }

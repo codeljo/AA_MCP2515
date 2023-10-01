@@ -1,7 +1,17 @@
+/*
+  CAN Send Example
+
+  This will setup the CAN controller(MCP2515) to send CAN frames.
+  Transmitted frames will be printed to the Serial port.
+  Transmits a CAN standard frame every 2 seconds.
+
+  MIT License
+  https://github.com/codeljo/AA_MCP2515
+*/
 #include "AA_MCP2515.h"
 
-#define CAN_PIN_CHIPSELECT 10
-#define CAN_PIN_INTERRUPT 2
+const uint8_t CAN_PIN_CHIPSELECT = 10;
+const int8_t CAN_PIN_INTERRUPT = 2;
 
 CANController CAN(CANBitrate::Config_8MHz_500kbps, CAN_PIN_CHIPSELECT, CAN_PIN_INTERRUPT);
 
@@ -19,12 +29,12 @@ void setup() {
 
 void loop() {
 
-  // write (transmit)
+  // transmit
   CANFrame frame(0x100, data, sizeof(data));
   CAN.write(frame);
   frame.print("CAN TX");
 
-  // modify data to simulate new data from sensor, etc
+  // modify data to simulate updated data from sensor, etc
   data[0] += 1;
 
   delay(2000);
