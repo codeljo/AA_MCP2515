@@ -85,15 +85,6 @@ void CANFrame::getData(uint8_t data_out[], uint8_t data_length) {
   }
 }
 
-CANFrameDataBuffer CANFrame::getDataBuffer() {
-  CANFrameDataBuffer buffer;
-  const uint8_t dlc = getDlc();
-  for (uint8_t i=0; i<CAN_DLC_MAX; i++) {
-      buffer.data[i] = (i < dlc) ? _register_buffer.data[i] : 0;
-  }
-  return buffer;
-}
-
 void CANFrame::reset() {
   //_extendedframe = false;
   _register_buffer.reset();

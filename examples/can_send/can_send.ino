@@ -24,6 +24,7 @@ void setup() {
     Serial.println("CAN begin OK");
   } else {
     Serial.println("CAN begin FAIL");
+    // TODO: handle CAN begin failure here
   }
 }
 

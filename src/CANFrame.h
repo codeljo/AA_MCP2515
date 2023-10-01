@@ -18,10 +18,6 @@ struct CANFrameRegisterBuffer {
   }
 };
 
-struct CANFrameDataBuffer {
-  uint8_t data[8];
-};
-
 class CANFrame {
   friend class CANController;
   public:
@@ -37,7 +33,6 @@ class CANFrame {
     bool isExtendedFrame();
     const uint8_t * getData();
     void getData(uint8_t data_out[], uint8_t data_length);
-    CANFrameDataBuffer getDataBuffer();
     void reset();
     void print(String title, Stream & out = Serial);
   private:
