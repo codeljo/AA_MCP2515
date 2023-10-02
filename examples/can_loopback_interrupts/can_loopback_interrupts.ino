@@ -9,22 +9,22 @@
 */
 #include "AA_MCP2515.h"
 
-const uint8_t CAN_PIN_CHIPSELECT = 10;
-const int8_t CAN_PIN_INTERRUPT = 2;
+const uint8_t CAN_PIN_CS = 10;
+const int8_t CAN_PIN_INT = 2;
 
-CANController CAN(CANBitrate::Config_8MHz_500kbps, CAN_PIN_CHIPSELECT, CAN_PIN_INTERRUPT);
+CANConfig config(CANBitrate::Config_8MHz_500kbps, CAN_PIN_CS, CAN_PIN_INT);
+CANController CAN(config);
 
 uint8_t data[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
 
 void setup() {
   Serial.begin(115200);
-
-  if (CAN.begin(CANController::Mode::Loopback) == CANController::OK) {
-    Serial.println("CAN begin OK");
-  } else {
-    Serial.println("CAN begin FAIL");
-    // TODO: handle CAN begin failure here
+  
+  while(CAN.begin(CANController::Mode::Loopback) != CANController::OK) {
+    Serial.println("CAN begin FAIL - delaying for 1 second");
+    delay(1000);
   }
+  Serial.println("CAN begin OK");
 
   CAN.setInterruptCallbacks([](CANController&, CANFrame frame){ frame.print("RX"); }, [](CANController& controller){ controller.setMode(CANController::Mode::Normal); });
 }

@@ -2,6 +2,7 @@
 #define _CANCONTROLLER_H
 
 #include "CANBitrate.h"
+#include "CANConfig.h"
 #include "CANFrame.h"
 #include "CANIO.h"
 #include <Arduino.h>
@@ -26,7 +27,7 @@ class CANController {
     enum class IOResult : int8_t { OK=0, FAIL=-1, NODATA=-2, NOBUFFER=-3, TIMEOUT=-4 };
     enum class Mode : uint8_t { Normal=0x00, Sleep=0x20, Loopback=0x40, ListenOnly=0x60, Config=0x80 };
   public:
-    CANController(CANBitrate::Config bitrate_config, uint8_t cs_pin, int8_t int_pin=-1, SPIClass spi=SPI);
+    CANController(CANConfig& config);
     CANController(const CANController&) = delete;
     ~CANController();
     int8_t begin(Mode mode = Mode::Normal);
@@ -51,9 +52,7 @@ class CANController {
     bool wakeup(Mode mode);
     int8_t getFreeBuffer();
   private:
-    CANBitrate::Config _bitrate_config;
-    uint8_t _cs_pin;
-    int8_t _int_pin;
+    CANConfig _config;
     CANIO _io;
     void (*_onReceive)(CANController&, CANFrame);
     void (*_onWakeup)(CANController&);

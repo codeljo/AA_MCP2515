@@ -2,16 +2,15 @@
 #include "CANInterruptHandler.h"
 #include "CANRegisters.h"
 
-CANController::CANController(CANBitrate::Config bitrate_config, uint8_t cs_pin, int8_t int_pin, SPIClass spi) : _bitrate_config(bitrate_config), _cs_pin(cs_pin), _int_pin(int_pin), _io(cs_pin, spi) {
-}
+CANController::CANController(CANConfig& config) : _config(config), _io(_config) { }
 
 CANController::~CANController() {
-  CANInterruptHandler::removeInterruptHandler(this, _int_pin);
+  CANInterruptHandler::removeInterruptHandler(this, _config.pin_int);
 }
 
 int8_t CANController::begin(Mode mode) {
 
-  if (_int_pin >= 0) { pinMode(_int_pin, INPUT_PULLUP); }
+  if (_config.pin_int >= 0) { pinMode(_config.pin_int, INPUT_PULLUP); }
   
   // spi
   _io.begin();
@@ -22,9 +21,9 @@ int8_t CANController::begin(Mode mode) {
   if ((_io.read(CANSTAT) & CANSTAT_OPMOD_MASK) != static_cast<uint8_t>(Mode::Config)) { return FAIL; }
 
   // set cnf1,2,3
-  _io.write(CNF1, _bitrate_config.cnf1);
-  _io.write(CNF2, _bitrate_config.cnf2);
-  _io.write(CNF3, _bitrate_config.cnf3);
+  _io.write(CNF1, _config.bitrate.cnf1);
+  _io.write(CNF2, _config.bitrate.cnf1);
+  _io.write(CNF3, _config.bitrate.cnf1);
 
   // set filters
 
@@ -100,7 +99,7 @@ void CANController::setInterruptCallbacks(void (*onReceive)(CANController&, CANF
   _onWakeup = onWakeup;
   _io.writeBits(CANINTE, (CANINTE_RX1IE | CANINTE_RX0IE), onReceive ? (CANINTE_RX1IE | CANINTE_RX0IE) : 0);
   _io.writeBits(CANINTE, CANINTE_WAKIE, onWakeup ? CANINTE_WAKIE : 0);
-  CANInterruptHandler::addInterruptHandler(this, _int_pin);
+  CANInterruptHandler::addInterruptHandler(this, _config.pin_int);
 }
 
 void CANController::onInterrupt() {
