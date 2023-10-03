@@ -22,8 +22,8 @@ int8_t CANController::begin(Mode mode) {
 
   // set cnf1,2,3
   _io.write(CNF1, _config.bitrate.cnf1);
-  _io.write(CNF2, _config.bitrate.cnf1);
-  _io.write(CNF3, _config.bitrate.cnf1);
+  _io.write(CNF2, _config.bitrate.cnf2);
+  _io.write(CNF3, _config.bitrate.cnf3);
 
   // set filters
 

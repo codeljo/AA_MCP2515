@@ -15,7 +15,6 @@ struct CANConfig {
             pin_int(int_pin),
             spi(spi),
             spi_settings(spi_hz, MSBFIRST, SPI_MODE0) { }
-  //CANConfig(const CANConfig&) = delete;
   ~CANConfig() { }
 
   const CANBitrate::Config bitrate;

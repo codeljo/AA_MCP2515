@@ -26,7 +26,7 @@ void CANFrame::setId(uint32_t id) {
 	} else {
     id &= CAN_29BIT_ID_MAX;
 		_register_buffer.sidh = (id >> 21);
-		_register_buffer.sidl = ((id >> 13) & 0xE0) | TXBnSIDL_EXIDE | ((id >> 16) & 0x03);
+		_register_buffer.sidl = ((id >> 13) & TXBnSIDL_SID2_1_0_MASK) | TXBnSIDL_EXIDE | ((id >> 16) & TXBnSIDL_EID17_16_MASK);
 		_register_buffer.eid8 = (id & 0x0000FF00) >> 8;
 		_register_buffer.eid0 = (id & 0x000000FF);
 	}
