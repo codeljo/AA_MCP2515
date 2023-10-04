@@ -1,7 +1,8 @@
 /*
-  CAN Receive Example
+  CAN Listen Example
 
-  This will setup the CAN controller(MCP2515) to receive CAN frames.
+  This will setup the CAN controller(MCP2515) to receive CAN frames via hardware interrupts.
+  The controller is set to CANController::Mode::ListenOnly mode.
   Received frames will be printed to the Serial port.
 
   MIT License
@@ -18,22 +19,26 @@ const int8_t CAN_PIN_INT = 2;
 CANConfig config(CAN_BITRATE, CAN_PIN_CS, CAN_PIN_INT);
 CANController CAN(config);
 
+void onReceive(CANController&, CANFrame frame) {
+  frame.print("RX");
+}
+
+void onWakeup(CANController& controller) {
+  controller.setMode(CANController::Mode::ListenOnly);
+}
+
 void setup() {
   Serial.begin(115200);
 
-  while(CAN.begin(CANController::Mode::Normal) != CANController::OK) {
+  while(CAN.begin(CANController::Mode::ListenOnly) != CANController::OK) {
     Serial.println("CAN begin FAIL - delaying for 1 second");
     delay(1000);
   }
   Serial.println("CAN begin OK");
+  
+  CAN.setInterruptCallbacks(&onReceive, &onWakeup);
 }
 
 void loop() {
-
-  CANFrame frame;
-  if (CAN.read(frame) == CANController::IOResult::OK) {
-    frame.print("RX");
-  }
-  
-  delay(500);
+  delay(2000);
 }

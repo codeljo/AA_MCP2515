@@ -1,7 +1,7 @@
 /*
-  CAN Receive Example
+  CAN Receive Interrupts Callback Example
 
-  This will setup the CAN controller(MCP2515) to receive CAN frames.
+  This will setup the CAN controller(MCP2515) to receive CAN frames via hardware interrupts.
   Received frames will be printed to the Serial port.
 
   MIT License
@@ -18,6 +18,14 @@ const int8_t CAN_PIN_INT = 2;
 CANConfig config(CAN_BITRATE, CAN_PIN_CS, CAN_PIN_INT);
 CANController CAN(config);
 
+void onReceive(CANController&, CANFrame frame) {
+  frame.print("RX");
+}
+
+void onWakeup(CANController& controller) {
+  controller.setMode(CANController::Mode::Normal);
+}
+
 void setup() {
   Serial.begin(115200);
 
@@ -26,14 +34,10 @@ void setup() {
     delay(1000);
   }
   Serial.println("CAN begin OK");
+  
+  CAN.setInterruptCallbacks(&onReceive, &onWakeup);
 }
 
 void loop() {
-
-  CANFrame frame;
-  if (CAN.read(frame) == CANController::IOResult::OK) {
-    frame.print("RX");
-  }
-  
-  delay(500);
+  delay(2000);
 }

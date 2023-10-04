@@ -7,12 +7,15 @@
   MIT License
   https://github.com/codeljo/AA_MCP2515
 */
+
 #include "AA_MCP2515.h"
 
+// TODO: modify CAN_BITRATE, CAN_PIN_CS(Chip Select) pin, and CAN_PIN_INT(Interrupt) pin as required.
+const CANBitrate::Config CAN_BITRATE = CANBitrate::Config_8MHz_500kbps;
 const uint8_t CAN_PIN_CS = 10;
 const int8_t CAN_PIN_INT = 2;
 
-CANConfig config(CANBitrate::Config_8MHz_500kbps, CAN_PIN_CS, CAN_PIN_INT);
+CANConfig config(CAN_BITRATE, CAN_PIN_CS, CAN_PIN_INT);
 CANController CAN(config);
 
 uint8_t data[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
