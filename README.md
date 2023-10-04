@@ -20,13 +20,13 @@
 
 ## Connections
 
-MCP2515 | Uno | Nano | Mega
-------- | --- | ---- | ----
-SPI CS (SS) | 10 | 10 | 53
-SPI MOSI (SI) | 11 | 11 | 51
-SPI MISO (SO) | 12 | 12 | 50
-SPI Clock (SCK) | 13 | 13 | 52
-Interrupt (INT) | 2 | 2 | 2
+MCP2515 | Uno | Nano | Leonardo | Mega
+------- | --- | ---- | -------- | ----
+SPI CS (SS) | 10 | 10 | 10 | 53
+SPI MOSI (SI) | 11 | 11 | 11 | 51
+SPI MISO (SO) | 12 | 12 | 12 | 50
+SPI Clock (SCK) | 13 | 13 | 13 | 52
+Interrupt (INT) | 2 | 2 | 2 | 2
 
 </br>
 
