@@ -8,11 +8,13 @@
 
 * Supports the Microchip MCP2510, and MCP2515 CAN Controllers.
 
-* Crystals - 8, 10, 16, 20 MHz crystals are preconfigured. Any other crystal speed can easily be added via `CANConfig`.
+* Crystals - 8, 10, 16, 20 MHz crystals are preconfigured. Any other crystal speed can be added via `CANConfig`.
 
 * Bitrate - 10, 20, 50, 125, 250, 500, 1000 (kbit/s) (kbps) are preconfigured. Any other bitrate can be added via `CANConfig`.
 
-* Interrupts - Support for Receive, and Wakeup interrupts.
+* Interrupts - Support for receive, and wakeup interrupts.
+
+* Filters - Support for receive filters based on 11-bit and 29-bit ID's.
 
 * Many examples included to easily add CAN to your project.
 
@@ -34,22 +36,28 @@ Interrupt (INT) | 2 | 2 | 2 | 2
 
 Note: Refer to the `examples` folder for complete ready to run examples.
 
-### Configuration
+### CANConfig
 
 ```cpp
 #include "AA_MCP2515.h"
 
+const CANBitrate::Config CAN_BITRATE = CANBitrate::Config_8MHz_500kbps;
 const uint8_t CAN_CS = 10;
 const int8_t CAN_INT = 2;
 
-CANConfig config(CANBitrate::Config_8MHz_500kbps, CAN_CS, CAN_INT);
-CANController CAN(config);
+CANConfig config(CAN_BITRATE, CAN_CS, CAN_INT);
 
 // -or- specify SPI, and SPI speed
 
 const uint32_t CAN_SPI_HZ = 8000000;
-CANConfig config(Config_8MHz_500kbps, CAN_CS, CAN_INT, SPI, CAN_SPI_HZ);
+CANConfig config(CAN_BITRATE, CAN_CS, CAN_INT, SPI, CAN_SPI_HZ);
+```
+
+### CANController
+
+```cpp
 CANController CAN(config);
+CAN.begin(CANController::Mode::Normal);
 ```
 
 ### Transmit
