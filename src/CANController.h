@@ -50,6 +50,7 @@ class CANController {
     void setFilterMask(uint8_t mask_base_register, uint32_t mask, bool eid);
     bool sleep();
     bool wakeup(Mode mode);
+    void delayMilliseconds(uint16_t delay);
     int8_t getFreeBuffer();
   private:
     CANConfig _config;

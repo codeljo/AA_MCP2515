@@ -17,7 +17,7 @@ int8_t CANController::begin(Mode mode) {
 
   // set configuration mode
   _io.write(INSTRUCTION_RESET);
-  delay(500);
+  delayMilliseconds(500);
   if ((_io.read(CANSTAT) & CANSTAT_OPMOD_MASK) != static_cast<uint8_t>(Mode::Config)) { return FAIL; }
 
   // set cnf1,2,3
@@ -179,7 +179,7 @@ CANController::IOResult CANController::write(CANFrame &frame) {
     uint8_t ctrl = _io.read(tx_register_base);
     if ((ctrl & TXBnCTRL_ABTF_MLOA_TXERR_MASK) != 0) { return IOResult::FAIL; }
     if ((ctrl & TXBnCTRL_TXREQ) == 0) { return IOResult::OK; }
-    delay(1);
+    delayMicroseconds(1000);
   }
   return IOResult::TIMEOUT;
 }
@@ -211,8 +211,8 @@ CANController::IOResult CANController::read(CANFrame &frame) {
 bool CANController::sleep() {
   for (uint16_t i=0; i<4096; i++) {
     _io.writeBits(CANCTRL, CANCTRL_REQOP_MASK, static_cast<uint8_t>(CANController::Mode::Sleep));
-    if (i==0) { delay(100); }
-    delay(1);
+    if (i==0) { delayMilliseconds(100); }
+    delayMicroseconds(1000);
     if (getMode() == CANController::Mode::Sleep) { return true; }
   }
   return false;
@@ -224,11 +224,15 @@ bool CANController::wakeup(Mode mode) {
     bool wakie = (_io.read(CANINTE) & CANINTE_WAKIE) == CANINTE_WAKIE;
     if (!wakie) { _io.writeBits(CANINTE, CANINTE_WAKIE, CANINTE_WAKIE); }
     _io.writeBits(CANINTF, CANINTF_WAKIF, CANINTF_WAKIF);
-    delay(1000);
+    delayMilliseconds(1000);
     if (!wakie) { _io.writeBits(CANINTE, CANINTE_WAKIE, 0); }
     _io.writeBits(CANINTF, CANINTF_WAKIF, 0);
   }
 
   if (getMode() != Mode::ListenOnly) { return false; }
   return setMode(mode);
+}
+
+void CANController::delayMilliseconds(uint16_t delay) {
+  for (uint16_t i=0; i<delay; i++) { delayMicroseconds(1000); }
 }
