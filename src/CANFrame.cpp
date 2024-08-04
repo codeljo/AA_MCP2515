@@ -1,9 +1,9 @@
 #include "CANFrame.h"
 #include "CANRegisters.h"
 
-#define CAN_11BIT_ID_MAX 0x7FF
-#define CAN_29BIT_ID_MAX 0x1FFFFFFF
-#define CAN_DLC_MAX 0x08
+constexpr uint32_t CAN_11BIT_ID_MAX = 0x7FF;
+constexpr uint32_t CAN_29BIT_ID_MAX = 0x1FFFFFFF;
+constexpr uint8_t CAN_DLC_MAX = 0x08;
 
 CANFrame::CANFrame() : CANFrame::CANFrame(0, NULL, 0, false, false) { }
 

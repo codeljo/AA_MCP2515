@@ -1,6 +1,12 @@
 #include "CANInterruptHandler.h"
 
-#define CAN_INT_INSTANCE_MAX 4
+constexpr uint8_t CAN_INT_INSTANCE_MAX = 4;
+
+#if defined(ESP32) || defined(ARDUINO_ARCH_ESP32)
+constexpr uint8_t CAN_INT_MODE = ONLOW;
+#else
+constexpr uint8_t CAN_INT_MODE = LOW;
+#endif
 
 namespace CANInterruptHandler {
 
@@ -33,18 +39,19 @@ namespace CANInterruptHandler {
     for (uint8_t i=0; i<CAN_INT_INSTANCE_MAX; i++) {
       if (_controller_instances[i] == nullptr) {
         _controller_instances[i] = controller;
+        pinMode(int_pin, INPUT_PULLUP);
         switch(i) {
           case 0:
-            attachInterrupt(digitalPinToInterrupt(int_pin), onInterruptInstance0, LOW);
+            attachInterrupt(digitalPinToInterrupt(int_pin), onInterruptInstance0, CAN_INT_MODE);
             break;
           case 1:
-            attachInterrupt(digitalPinToInterrupt(int_pin), onInterruptInstance1, LOW);
+            attachInterrupt(digitalPinToInterrupt(int_pin), onInterruptInstance1, CAN_INT_MODE);
             break;
           case 2:
-            attachInterrupt(digitalPinToInterrupt(int_pin), onInterruptInstance2, LOW);
+            attachInterrupt(digitalPinToInterrupt(int_pin), onInterruptInstance2, CAN_INT_MODE);
             break;
           case 3:
-            attachInterrupt(digitalPinToInterrupt(int_pin), onInterruptInstance3, LOW);
+            attachInterrupt(digitalPinToInterrupt(int_pin), onInterruptInstance3, CAN_INT_MODE);
             break;
         }
         return true;

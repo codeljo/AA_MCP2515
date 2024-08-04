@@ -20,7 +20,7 @@ class CANIO {
     uint8_t readStatus();
   private:
     const uint8_t _pin_cs;
-    const SPIClass _spi;
+    SPIClass * _spi;
     const SPISettings _spi_settings;
 };
 
