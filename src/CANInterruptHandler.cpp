@@ -3,9 +3,9 @@
 constexpr uint8_t CAN_INT_INSTANCE_MAX = 4;
 
 #if defined(ESP32) || defined(ARDUINO_ARCH_ESP32)
-constexpr uint8_t CAN_INT_MODE = ONLOW;
+#define CAN_INT_MODE ONLOW
 #else
-constexpr uint8_t CAN_INT_MODE = LOW;
+#define CAN_INT_MODE LOW
 #endif
 
 namespace CANInterruptHandler {
