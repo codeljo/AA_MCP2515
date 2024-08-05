@@ -1,6 +1,6 @@
 #include "CANInterruptHandler.h"
 
-constexpr uint8_t CAN_INT_INSTANCE_MAX = 4;
+#define CAN_INT_INSTANCE_MAX 4
 
 #if defined(ESP32) || defined(ARDUINO_ARCH_ESP32)
 #define CAN_INT_MODE ONLOW
@@ -34,7 +34,9 @@ namespace CANInterruptHandler {
 
   bool addInterruptHandler(CANController * controller, uint8_t int_pin) {
 
+    #ifdef NOT_AN_INTERRUPT
     if (digitalPinToInterrupt(int_pin) == NOT_AN_INTERRUPT) { return false; }
+    #endif
 
     for (uint8_t i=0; i<CAN_INT_INSTANCE_MAX; i++) {
       if (_controller_instances[i] == nullptr) {
@@ -63,7 +65,9 @@ namespace CANInterruptHandler {
 
   void removeInterruptHandler(CANController * controller, uint8_t int_pin) {
 
+    #ifdef NOT_AN_INTERRUPT
     if (digitalPinToInterrupt(int_pin) == NOT_AN_INTERRUPT) { return; }
+    #endif
     
     for (uint8_t i=0; i<CAN_INT_INSTANCE_MAX; i++) {
       if (_controller_instances[i] == controller) {

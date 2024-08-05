@@ -2,7 +2,7 @@
 
 ## MCP2515 CAN Controller Library for Arduino
 
-</br>
+<br>
 
 ## Features
 
@@ -18,19 +18,27 @@
 
 * Many examples included to easily add CAN to your project.
 
-</br>
+<br>
 
 ## Connections
 
-MCP2515 | Uno | Nano | Leonardo | Mega
-------- | --- | ---- | -------- | ----
-SPI CS (SS) | 10 | 10 | 10 | 53
-SPI MOSI (SI) | 11 | 11 | 11 | 51
-SPI MISO (SO) | 12 | 12 | 12 | 50
-SPI Clock (SCK) | 13 | 13 | 13 | 52
-Interrupt (INT) | 2 | 2 | 2 | 2
+MCP2515 | Uno | Nano | Leonardo | Mega 2560 | Uno R4
+------- | --- | ---- | -------- | ---- | ------
+SPI CS (SS) | 10 | 10 | 10 | 53 | 10
+SPI MOSI (SI) | 11 | 11 | 11 | 51 | 11
+SPI MISO (SO) | 12 | 12 | 12 | 50 | 12
+SPI Clock (SCK) | 13 | 13 | 13 | 52 | 13
+Interrupt (INT) | 2 | 2 | 2 | 2 | 2
 
-</br>
+## Version History
+
+> `1.0.7` - UNO R4 Minima, and UNO R4 WiFi bug fixes.
+
+> `1.0.6` - Nano Every bug fix.
+
+> `1.0.5` - ESP32 based boards are now supported.
+
+<br>
 
 ## Example Usage
 
